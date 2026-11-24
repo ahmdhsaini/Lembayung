@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_slot'])) {
 }
 ?>
 
-<?php include_once "includes/header.php"; ?>
+<?php include_once "includes/staff_header.php"; ?>
 
 <div class="container" style="margin-top:20px;">
     <h2>Manage Operating Time Slots</h2>

@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Gap 2: Prepared statement for updates
     $sql_update = "UPDATE bookings SET slot_id = ?, booking_date = ?, num_guests = ?, special_notes = ? WHERE id = ? AND customer_id = ? AND status = 'Pending'";
     if ($stmt = mysqli_prepare($link, $sql_update)) {
-        mysqli_stmt_bind_param($stmt, "isiisii", $slot_id, $booking_date, $num_guests, $special_notes, $booking_id, $customer_id);
+        mysqli_stmt_bind_param($stmt, "isisii", $slot_id, $booking_date, $num_guests, $special_notes, $booking_id, $customer_id);
         if (mysqli_stmt_execute($stmt)) {
             header("Location: customer_dashboard.php");
             exit();
@@ -61,7 +61,7 @@ if (!$booking) {
                 <label>Operational Window Time:</label>
                 <select name="slot_id" class="form-control" required>
                     <?php
-                    $slots = mysqli_query($link, "SELECT * FROM timeslots WHERE status='Active'");
+                    $slots = mysqli_query($link, "SELECT * FROM timeslots WHERE status='Active' OR slot_id = " . intval($booking['slot_id']));
                     while($s = mysqli_fetch_assoc($slots)) {
                         $sel = ($booking['slot_id'] == $s['slot_id']) ? 'selected' : '';
                         echo '<option value="'.$s['slot_id'].'" '.$sel.'>'.$s['time_range'].'</option>';
